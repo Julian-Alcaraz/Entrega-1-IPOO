@@ -36,7 +36,16 @@ class Viaje{
         $this->pasajeros = $arregloPasajeros;
     }
     public function __toString(){
-        return "Codigo de viaje: ".$this->codigoViaje."\n Destino: ".$this->destino."\n Cantidad pasajeros: ".$this->cantMaxPasajeros." \n Pasajeros: ".print_r($this->pasajeros);
+        //return "Codigo de viaje: ".$this->codigoViaje."\n Destino: ".$this->destino."\n Cantidad pasajeros: ".$this->cantMaxPasajeros." \n Pasajeros: ".print_r($this->pasajeros);
+       $mensaje="  Codigo Viaje: ".$this->codigoViaje."\n".
+        "  Destino Viaje: ".$this->destino."\n".
+        "  Cantidad de pasajeros: ".$this->cantMaxPasajeros."\n".
+        "  Pasajeros: \n";
+        for($h=0;$h<($this->cantMaxPasajeros);$h++){
+            $mensaje=$mensaje."\nPasajero ".($h+1). "\n".($this->pasajeros)[$h];
+        }
+        return $mensaje;
+        
     }
         
     }

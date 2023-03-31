@@ -26,7 +26,10 @@
             $this->dni=$doc;
         }
         public function __toString(){
-            return "Nombre: ".$this->nombre."\n Apellido: ".$this->apellido."\n Nombre: ".$this->nombre."\n Documento: ".$this->dni;
+            return "     Nombre: ".$this->nombre.
+            "\n     Apellido: ".$this->apellido.
+            "\n     Nombre: ".$this->nombre.
+            "\n     Documento: ".$this->dni."\n";
         }
     }
 ?>
