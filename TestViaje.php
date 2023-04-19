@@ -15,9 +15,35 @@ function encontrarCodigoIgual($arreglo,$codigo){
     } 
     return $valor;
 }
+function verificarDocumento($arreglo,$dniQuiereIngresar){//recibe arreglo pasajeros, devuelve true si no existe ese documento, false si  existe
+    $cantPasajeros=count($arreglo);
+    $verdad=true;
+    if($cantPasajeros!=0){
+        for($i=0;$i<$cantPasajeros;$i++){
+            $documento=$arreglo[$i]->getDni();
+            if($documento==$dniQuiereIngresar){
+                $verdad=false;
+            }
+        }
+    }
+    return $verdad;
+}
+function cargarPasajero(){
+    echo "Ingrese el documento del pasajero";
+    $dni = trim(fgets(STDIN));
+    echo "Ingrese el nombre del pasajero";
+    $nombre = trim(fgets(STDIN));
+    echo "Ingrese el apellido del pasajero";
+    $apellido = trim(fgets(STDIN));
+    echo "Ingrese el numero de telefono";
+    $telefono = trim(fgets(STDIN));
+    $pas = new Pasajeros($nombre,$apellido,$dni,$telefono);
+    return $pas;
+}
 function cargarViaje($arreglo){
     echo "Ingrese codigo de viaje: "."\n";
     $codigoVia = trim(fgets(STDIN));
+    $pasajeros=[];
     if(encontrarCodigoIgual($arreglo,$codigoVia)){
         echo"EL CODIGO DE VIAJE YA EXISTE \n";
         $viaje=null;
@@ -27,17 +53,25 @@ function cargarViaje($arreglo){
         echo "Ingrese cantidad maxima de pasajeros: \n";
         $cantidadMaxPasajeros = trim(fgets(STDIN));
         for($i=0;$i<$cantidadMaxPasajeros;$i++){
-            echo "Ingrese el pasajero ".($i+1).": ";
-            echo "Ingrese el nombre del pasajero";
-            $nombre = trim(fgets(STDIN));
-            echo "Ingrese el apellido del pasajero";
-            $apellido = trim(fgets(STDIN));
-            echo "Ingrese el documento del pasajero";
-            $dni = trim(fgets(STDIN));
-            echo "Ingrese el numero de telefono";
-            $telefono = trim(fgets(STDIN));
-            $pas = new Pasajeros($nombre,$apellido,$dni,$telefono);
-            $pasajeros[$i] = $pas;
+            if($i==0){
+                echo "Ingrese el pasajero ".($i+1).": ";
+                $pas = cargarPasajero();
+                $pasajeros[$i] = $pas;
+            }else{
+                echo "Ingrese el pasajero ".($i+1).": ";
+                do{
+                    $pas = cargarPasajero();
+                    $dniPas=$pas->getDni();
+                    if(verificarDocumento($pasajeros,$dniPas)){
+                        $pasajeros[$i] = $pas;
+                        $bandera=false;
+                    }else{
+                        echo "Ingrese nuevamente el pasajero, el documento ingresado ya fue cargado \n";
+                        $bandera=true;
+                    }
+                }while($bandera);
+            }
+            
         }
         echo "Ingrese el Responsable del viaje";
         echo "Ingrese el numero de la empleado";
