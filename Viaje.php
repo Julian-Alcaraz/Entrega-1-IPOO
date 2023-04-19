@@ -4,12 +4,14 @@ class Viaje{
     private $destino;
     private $cantMaxPasajeros;
     private $pasajeros=[];
+    private $responsable;
 
-    public function __construct($codVia,$dest,$cantM,$arregloPasajeros){
+    public function __construct($codVia,$dest,$cantM,$arregloPasajeros,$resp){
         $this->codigoViaje = $codVia;
         $this->destino = $dest;
         $this->cantMaxPasajeros = $cantM;
         $this->pasajeros = $arregloPasajeros;
+        $this->responsable=$resp;
     }
     public function getCodigoViaje(){
         return $this->codigoViaje;    
@@ -35,15 +37,21 @@ class Viaje{
     public function setPasajeros($arregloPasajeros){
         $this->pasajeros = $arregloPasajeros;
     }
+    public function setResponsable($valor){
+        $this->responsable = $valor;
+    }
+    public function getResponsable($valor){
+        $this->responsable = $valor;
+    }
     public function __toString(){
-        //return "Codigo de viaje: ".$this->codigoViaje."\n Destino: ".$this->destino."\n Cantidad pasajeros: ".$this->cantMaxPasajeros." \n Pasajeros: ".print_r($this->pasajeros);
-       $mensaje="  Codigo Viaje: ".$this->codigoViaje."\n".
+        $mensaje="  Codigo Viaje: ".$this->codigoViaje."\n".
         "  Destino Viaje: ".$this->destino."\n".
         "  Cantidad de pasajeros: ".$this->cantMaxPasajeros."\n".
         "  Pasajeros: \n";
         for($h=0;$h<($this->cantMaxPasajeros);$h++){
-            $mensaje=$mensaje."\nPasajero ".($h+1). "\n".($this->pasajeros)[$h];
+            $mensaje=$mensaje."\nPasajero ".($h+1)."\n".($this->pasajeros)[$h];
         }
+        $mensaje=$mensaje.$this->responsable."\n";
         return $mensaje;
         
     }

@@ -1,6 +1,8 @@
 <?php
 include 'Viaje.php';
 include 'Pasajero.php';
+include 'Responsable.php';
+
 $arregloViajes=[];
 function encontrarCodigoIgual($arreglo,$codigo){
     $valor=false;
@@ -26,16 +28,28 @@ function cargarViaje($arreglo){
         $cantidadMaxPasajeros = trim(fgets(STDIN));
         for($i=0;$i<$cantidadMaxPasajeros;$i++){
             echo "Ingrese el pasajero ".($i+1).": ";
-            echo "ingrese el nombre del pasajero";
+            echo "Ingrese el nombre del pasajero";
             $nombre = trim(fgets(STDIN));
-            echo "ingrese el apellido del pasajero";
+            echo "Ingrese el apellido del pasajero";
             $apellido = trim(fgets(STDIN));
-            echo "ingrese el documento del pasajero";
+            echo "Ingrese el documento del pasajero";
             $dni = trim(fgets(STDIN));
-            $pas = new Pasajeros($nombre,$apellido,$dni);
+            echo "Ingrese el numero de telefono";
+            $telefono = trim(fgets(STDIN));
+            $pas = new Pasajeros($nombre,$apellido,$dni,$telefono);
             $pasajeros[$i] = $pas;
         }
-        $viaje = new Viaje($codigoVia,$lugar,$cantidadMaxPasajeros,$pasajeros);
+        echo "Ingrese el Responsable del viaje";
+        echo "Ingrese el numero de la empleado";
+        $empleado=trim(fgets(STDIN));
+        echo "Ingrese el numero de la licencia";
+        $licencia=trim(fgets(STDIN));
+        echo "Ingrese el numero de la persona Responsable";
+        $nombreResp=trim(fgets(STDIN));
+        echo "Ingrese el numero de la nombre";
+        $apellidoResp=trim(fgets(STDIN));
+        $respon=new Responsable($empleado,$licencia,$nombreResp,$apellidoResp);
+        $viaje = new Viaje($codigoVia,$lugar,$cantidadMaxPasajeros,$pasajeros,$respon);
     }
     return $viaje;
 }
@@ -43,9 +57,10 @@ function cargarViaje($arreglo){
 function modificarViaje($objeto){
     echo "Ingrese destino del viaje: "."\n";
     $lugar = trim(fgets(STDIN));
+    $objeto->setDestino($lugar);
     echo "Ingrese cantidad de pasajeros: "."\n";
     $cantidadMaxPasajeros = trim(fgets(STDIN));
-    
+    $objeto->setCantMaxPasajeros($cantidadMaxPasajeros);
     for($i=0;$i<$cantidadMaxPasajeros;$i++){
         echo "Ingrese el pasajero ".($i+1).": \n";
         echo "Ingrese el nombre ";
@@ -58,8 +73,19 @@ function modificarViaje($objeto){
         $objeto->getPasajeros()[$i]->setApellido($apellido);
         $objeto->getPasajeros()[$i]->setDni($dni);
     }
-    $objeto->setDestino($lugar);
-    $objeto->setCantMaxPasajeros($cantidadMaxPasajeros);
+    echo "Ingrese el Responsable del viaje";
+    echo "Ingrese el numero de la empleado";
+    $empleado=trim(fgets(STDIN));
+    $objeto->getReponsable()->setNumeroEmpleado($empleado);
+    echo "Ingrese el numero de la licencia";
+    $licencia=trim(fgets(STDIN));
+    $objeto->getReponsable()->setNumeroLicencia($licencia);
+    echo "Ingrese el numero de la persona Responsable";
+    $nombreResp=trim(fgets(STDIN));
+    $objeto->getReponsable()->setNombre($nombreResp);
+    echo "Ingrese el numero de la nombre";
+    $apellidoResp=trim(fgets(STDIN));
+    $objeto->getReponsable()->setApellido($apellidoResp);
     
     return $objeto;
 }
