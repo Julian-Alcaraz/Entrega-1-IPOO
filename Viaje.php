@@ -6,12 +6,28 @@ class Viaje{
     private $pasajeros=[];
     private $responsable;
 
-    public function __construct($codVia,$dest,$cantM,$arregloPasajeros,$resp){
+    private $costoViaje;
+    private $costoAbonado;
+
+
+    public function __construct($codVia,$dest,$cantM,$arregloPasajeros,$resp,$costo,$costoAbon){
         $this->codigoViaje = $codVia;
         $this->destino = $dest;
         $this->cantMaxPasajeros = $cantM;
         $this->pasajeros = $arregloPasajeros;
         $this->responsable=$resp;
+        $this->costoViaje=$costo;
+        $this->costoAbonado=$costoAbon;
+
+    }
+    public function getCostoAbonado(){
+        return $this->costoAbonado;    
+    }
+    public function setCostoAbonado($cost){
+        $this->costoAbonado=$cost;    
+    }
+    public function getCostoViaje(){
+        return $this->costoViaje;    
     }
     public function getCodigoViaje(){
         return $this->codigoViaje;    
@@ -37,6 +53,9 @@ class Viaje{
     public function setPasajeros($arregloPasajeros){
         $this->pasajeros = $arregloPasajeros;
     }
+    public function setCostoViaje($costo){
+        $this->costoViaje=$costo;    
+    }
     public function setResponsable($valor){
         $this->responsable = $valor;
     }
@@ -47,14 +66,21 @@ class Viaje{
         $mensaje="  Codigo Viaje: ".$this->codigoViaje."\n".
         "  Destino Viaje: ".$this->destino."\n".
         "  Cantidad de pasajeros: ".$this->cantMaxPasajeros."\n".
+        "  Costo Viaje: ".$this->costoViaje."\n".
         "  Pasajeros: \n";
         for($h=0;$h<($this->cantMaxPasajeros);$h++){
             $mensaje=$mensaje."\nPasajero ".($h+1)."\n".($this->pasajeros)[$h];
         }
         $mensaje=$mensaje.$this->responsable."\n";
         return $mensaje;
-        
     }
-        
+    public function venderPasaje($pasa){
+        $this->getPasajeros()[]=$pasa;
+        $precioPasajero=$this->getCostoViaje()+$this->getCostoViaje()*$pasa->darPorcentaje();
+        $totalAbonados=$this->getCostoAbonado()+$precioPasajero;
+        $this->setCostoAbonado($totalAbonados);
+        return $precioPasajero;
     }
+    
+}
 ?>

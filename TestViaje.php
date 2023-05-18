@@ -2,6 +2,9 @@
 include 'Viaje.php';
 include 'Pasajero.php';
 include 'Responsable.php';
+include 'PasajeroVip.php';
+include 'PasajeroEstandar.php';
+include 'PasajeroEspecial.php';
 
 $arregloViajes=[];
 function encontrarCodigoIgual($arreglo,$codigo){
@@ -37,7 +40,42 @@ function cargarPasajero(){
     $apellido = trim(fgets(STDIN));
     echo "Ingrese el numero de telefono";
     $telefono = trim(fgets(STDIN));
-    $pas = new Pasajeros($nombre,$apellido,$dni,$telefono);
+    echo "Ingrese Numero Asiento";
+    $numeroAsiento=trim(fgets(STDIN));
+    echo "Ingrese Numero Ticket";
+    $numeroTicket=trim(fgets(STDIN));
+    do{
+        echo "Ingrese segun tipo Pasajero: 1:Vip ,2:especial ,3:Estandar ";
+        $tipoPasajero=trim(fgets(STDIN));
+        switch ($tipoPasajero){
+            case 1: 
+                echo "Ingrese el numero de viajero frecuente";
+                $numeroViajeroFrecuente=trim(fgets(STDIN));
+                echo "Ingrese el numerode millas";
+                $numeroMillas=trim(fgets(STDIN));
+                $pas = new PasajeroVip($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket,$numeroViajeroFrecuente,$numeroMillas);
+                $ingresoCorrecto=false;
+                break;
+            case 2: 
+                echo "Necesita silla de rueda (SI/NO)";
+                $sillaRueda=strtoupper(trim(fgets(STDIN)));
+                echo "Necesita asistencia para embarque (SI/NO)";
+                $embarque=strtoupper(trim(fgets(STDIN)));
+                echo "Necesita comida especial (SI/NO)";
+                $comida=strtoupper(trim(fgets(STDIN)));
+                $pas = new PasajeroEspecial($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket,$sillaRueda,$embarque,$comida);
+                $ingresoCorrecto=false;
+
+                break;
+            case 3: //como no especifica nada del estandar uso pasajero normal
+                $pas = new Pasajeros($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket);
+                break;
+            default: 
+                echo "Numero mal ingresado vuelva a ingresarlo \n";
+                $ingresoCorrecto=true;
+            break;
+        }
+    }while($ingresoCorrecto);
     return $pas;
 }
 function cargarViaje($arreglo){
@@ -70,8 +108,7 @@ function cargarViaje($arreglo){
                         $bandera=true;
                     }
                 }while($bandera);
-            }
-            
+            }  
         }
         echo "Ingrese el Responsable del viaje";
         echo "Ingrese el numero de la empleado";
@@ -82,8 +119,16 @@ function cargarViaje($arreglo){
         $nombreResp=trim(fgets(STDIN));
         echo "Ingrese el numero de la nombre";
         $apellidoResp=trim(fgets(STDIN));
+        echo "Ingrese el costo del viaje";
+        $costoViaje=trim(fgets(STDIN));
         $respon=new Responsable($empleado,$licencia,$nombreResp,$apellidoResp);
-        $viaje = new Viaje($codigoVia,$lugar,$cantidadMaxPasajeros,$pasajeros,$respon);
+        $costoAbonado=0;
+        $viaje = new Viaje($codigoVia,$lugar,$cantidadMaxPasajeros,$pasajeros,$respon,$costoViaje,$costoAbonado);
+        for($i=0;$i<count($viaje->getPasajeros());$i++){
+            $pasajeroVendido=$viaje->getPasajeros()[$i];
+            $costoAbonado=$costoAbonado+$viaje->venderPasaje($pasajeroVendido);
+        }
+        $viaje->setCostoAbonado($costoAbonado);
     }
     return $viaje;
 }
@@ -120,8 +165,25 @@ function modificarViaje($objeto){
     echo "Ingrese el numero de la nombre";
     $apellidoResp=trim(fgets(STDIN));
     $objeto->getReponsable()->setApellido($apellidoResp);
-    
+
+    echo "Ingrese el costo del viaje";
+    $costoViaje=trim(fgets(STDIN));
+    $objeto->setCostoViaje($costoViaje);
+    $costoAbonado=0;
+    for($i=0;$i<count($objeto->getPasajeros());$i++){
+        $pasajeroVendido=$objeto->getPasajeros()[$i];
+        $costoAbonado=$costoAbonado+$objeto->venderPasaje($pasajeroVendido);
+    }
+    $objeto->setCostoAbonado($costoAbonado);
+
     return $objeto;
+}
+function hayPasajeDisponible($viaje){
+    $valor=false;
+    if($viaje->getCantMaxPasajeros()>count($viaje->getPasajeros())){
+        $valor=true;
+    }
+    return $valor;
 }
 do{
     echo "1: Cargar informacion de un nuevo viaje!\n";
@@ -129,6 +191,7 @@ do{
     echo "3: Mostrar datos de todos los viajes!\n";
     echo "4: Mostrar datos de un viaje!\n";
     echo "5: salir!\n";
+
     $opc = trim(fgets(STDIN));
     if($opc>1 || $opc<5){
         switch($opc){
