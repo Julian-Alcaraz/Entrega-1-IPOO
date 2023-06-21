@@ -59,19 +59,19 @@ class Viaje{
     public function setResponsable($valor){
         $this->responsable = $valor;
     }
-    public function getResponsable($valor){
-        $this->responsable = $valor;
+    public function getResponsable(){
+        return $this->responsable;
     }
     public function __toString(){
-        $mensaje="  Codigo Viaje: ".$this->codigoViaje."\n".
-        "  Destino Viaje: ".$this->destino."\n".
-        "  Cantidad de pasajeros: ".$this->cantMaxPasajeros."\n".
-        "  Costo Viaje: ".$this->costoViaje."\n".
+        $mensaje="  Codigo Viaje: ".$this->getCodigoViaje()."\n".
+        "  Destino Viaje: ".$this->getDestino()."\n".
+        "  Cantidad de pasajeros: ".$this->getCantMaxPasajeros()."\n".
+        "  Costo Viaje: ".$this->getCostoViaje()."\n".
         "  Pasajeros: \n";
-        for($h=0;$h<($this->cantMaxPasajeros);$h++){
-            $mensaje=$mensaje."\nPasajero ".($h+1)."\n".($this->pasajeros)[$h];
+        for($h=0;$h<($this->getCantMaxPasajeros());$h++){
+            $mensaje=$mensaje."\nPasajero ".($h+1)."\n".($this->getPasajeros()[$h]);
         }
-        $mensaje=$mensaje.$this->responsable."\n";
+        $mensaje=$mensaje."\nResponsable del Viaje \n".$this->getResponsable()."\n";
         return $mensaje;
     }
     public function venderPasaje($pasa){
@@ -81,6 +81,5 @@ class Viaje{
         $this->setCostoAbonado($totalAbonados);
         return $precioPasajero;
     }
-    
 }
 ?>

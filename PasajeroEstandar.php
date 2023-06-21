@@ -1,5 +1,5 @@
 <?php 
-    class PasajeroEstandar extends Pasajeros{
+    class PasajeroEstandar extends Pasajero{
         //seria el pasajero normal ashe
         
     }  

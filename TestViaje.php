@@ -6,7 +6,16 @@ include 'PasajeroVip.php';
 include 'PasajeroEstandar.php';
 include 'PasajeroEspecial.php';
 
-$arregloViajes=[];
+
+//cargo algunos objetos
+$pasajero1= new Pasajero('cristian','mamani',446462,321424,2,2);
+$pasajero2= new Pasajero('julian','alcaraz',324234,34242,1,2);
+$pasajero3=new PasajeroEspecial('mateo','kroling',213,12312,3,2,'si','si','si');
+$responsable1=new Responsable(1,1234,'enzo','piche');
+$coleccionPasajero1=[$pasajero1,$pasajero2,$pasajero3];
+$viaje1=new Viaje(1,'Neuquen',10,$coleccionPasajero1,$responsable1,1000,3000);
+
+$arregloViajes=[$viaje1];
 function encontrarCodigoIgual($arreglo,$codigo){
     $valor=false;
     for($r=0;$r<count($arreglo);$r++){
@@ -32,26 +41,26 @@ function verificarDocumento($arreglo,$dniQuiereIngresar){//recibe arreglo pasaje
     return $verdad;
 }
 function cargarPasajero(){
-    echo "Ingrese el documento del pasajero";
+    echo "Ingrese el documento del pasajero ";
     $dni = trim(fgets(STDIN));
-    echo "Ingrese el nombre del pasajero";
+    echo "Ingrese el nombre del pasajero ";
     $nombre = trim(fgets(STDIN));
-    echo "Ingrese el apellido del pasajero";
+    echo "Ingrese el apellido del pasajero ";
     $apellido = trim(fgets(STDIN));
-    echo "Ingrese el numero de telefono";
+    echo "Ingrese el numero de telefono ";
     $telefono = trim(fgets(STDIN));
-    echo "Ingrese Numero Asiento";
+    echo "Ingrese Numero Asiento ";
     $numeroAsiento=trim(fgets(STDIN));
-    echo "Ingrese Numero Ticket";
+    echo "Ingrese Numero Ticket ";
     $numeroTicket=trim(fgets(STDIN));
     do{
         echo "Ingrese segun tipo Pasajero: 1:Vip ,2:especial ,3:Estandar ";
         $tipoPasajero=trim(fgets(STDIN));
         switch ($tipoPasajero){
             case 1: 
-                echo "Ingrese el numero de viajero frecuente";
+                echo "Ingrese el numero de viajero frecuente ";
                 $numeroViajeroFrecuente=trim(fgets(STDIN));
-                echo "Ingrese el numerode millas";
+                echo "Ingrese el numerode millas ";
                 $numeroMillas=trim(fgets(STDIN));
                 $pas = new PasajeroVip($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket,$numeroViajeroFrecuente,$numeroMillas);
                 $ingresoCorrecto=false;
@@ -68,7 +77,7 @@ function cargarPasajero(){
 
                 break;
             case 3: //como no especifica nada del estandar uso pasajero normal
-                $pas = new Pasajeros($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket);
+                $pas = new Pasajero($nombre,$apellido,$dni,$telefono,$numeroAsiento,$numeroTicket);
                 break;
             default: 
                 echo "Numero mal ingresado vuelva a ingresarlo \n";
@@ -92,11 +101,11 @@ function cargarViaje($arreglo){
         $cantidadMaxPasajeros = trim(fgets(STDIN));
         for($i=0;$i<$cantidadMaxPasajeros;$i++){
             if($i==0){
-                echo "Ingrese el pasajero ".($i+1).": ";
+                echo "Ingrese el pasajero ".($i+1).": \n ";
                 $pas = cargarPasajero();
                 $pasajeros[$i] = $pas;
             }else{
-                echo "Ingrese el pasajero ".($i+1).": ";
+                echo "Ingrese el pasajero ".($i+1).": \n";
                 do{
                     $pas = cargarPasajero();
                     $dniPas=$pas->getDni();
@@ -110,16 +119,16 @@ function cargarViaje($arreglo){
                 }while($bandera);
             }  
         }
-        echo "Ingrese el Responsable del viaje";
-        echo "Ingrese el numero de la empleado";
+        echo "Ingrese el Responsable del viaje \n";
+        echo "Ingrese el numero de empleado ";
         $empleado=trim(fgets(STDIN));
-        echo "Ingrese el numero de la licencia";
+        echo "Ingrese el numero de la licencia ";
         $licencia=trim(fgets(STDIN));
-        echo "Ingrese el numero de la persona Responsable";
+        echo "Ingrese el nombre de la persona Responsable ";
         $nombreResp=trim(fgets(STDIN));
-        echo "Ingrese el numero de la nombre";
+        echo "Ingrese el apellido de la nombre ";
         $apellidoResp=trim(fgets(STDIN));
-        echo "Ingrese el costo del viaje";
+        echo "Ingrese el costo del viaje ";
         $costoViaje=trim(fgets(STDIN));
         $respon=new Responsable($empleado,$licencia,$nombreResp,$apellidoResp);
         $costoAbonado=0;
@@ -152,21 +161,21 @@ function modificarViaje($objeto){
         $objeto->getPasajeros()[$i]->setApellido($apellido);
         $objeto->getPasajeros()[$i]->setDni($dni);
     }
-    echo "Ingrese el Responsable del viaje";
-    echo "Ingrese el numero de la empleado";
+    echo "Ingrese el Responsable del viaje\n";
+    echo "Ingrese el numero de la empleado ";
     $empleado=trim(fgets(STDIN));
-    $objeto->getReponsable()->setNumeroEmpleado($empleado);
-    echo "Ingrese el numero de la licencia";
+    $objeto->getResponsable()->setNumeroEmpleado($empleado);
+    echo "Ingrese el numero de la licencia ";
     $licencia=trim(fgets(STDIN));
-    $objeto->getReponsable()->setNumeroLicencia($licencia);
-    echo "Ingrese el numero de la persona Responsable";
+    $objeto->getResponsable()->setNumeroLicencia($licencia);
+    echo "Ingrese el numero de la persona Responsable ";
     $nombreResp=trim(fgets(STDIN));
-    $objeto->getReponsable()->setNombre($nombreResp);
-    echo "Ingrese el numero de la nombre";
+    $objeto->getResponsable()->setNombre($nombreResp);
+    echo "Ingrese el numero de la nombre ";
     $apellidoResp=trim(fgets(STDIN));
-    $objeto->getReponsable()->setApellido($apellidoResp);
+    $objeto->getResponsable()->setApellido($apellidoResp);
 
-    echo "Ingrese el costo del viaje";
+    echo "Ingrese el costo del viaje ";
     $costoViaje=trim(fgets(STDIN));
     $objeto->setCostoViaje($costoViaje);
     $costoAbonado=0;
@@ -185,6 +194,7 @@ function hayPasajeDisponible($viaje){
     }
     return $valor;
 }
+
 do{
     echo "1: Cargar informacion de un nuevo viaje!\n";
     echo "2: Modificar informacion del viaje!\n";

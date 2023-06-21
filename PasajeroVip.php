@@ -1,5 +1,5 @@
 <?php 
-    class PasajeroVip extends Pasajeros{
+    class PasajeroVip extends Pasajero{
         private $numeroViajeroFrecuente;
         private $cantidadMillas;
         

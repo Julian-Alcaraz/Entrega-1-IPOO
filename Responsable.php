@@ -37,10 +37,10 @@
             $this->apellido=$ape;
         }
         public function __toString(){
-            return "     Numero Empleado: ".$this->numeroEmpleado.
-            "\n     Numero Licencia: ".$this->numeroLicencia.
-            "\n     Nombre: ".$this->nombre.
-            "\n     Apellido: ".$this->apellido."\n";
+            return "     Numero Empleado: ".$this->getNumeroEmpleado().
+            "\n     Numero Licencia: ".$this->getNumeroLicencia().
+            "\n     Nombre: ".$this->getNombre().
+            "\n     Apellido: ".$this->getApellido()."\n";
         }
         
     }

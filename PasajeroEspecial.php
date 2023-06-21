@@ -1,5 +1,5 @@
 <?php 
-    class PasajeroEspecial extends Pasajeros{
+    class PasajeroEspecial extends Pasajero{
         private $sillaRueda;
         private $asistencia;
         private $comidaEspeciales;
@@ -30,9 +30,9 @@
         }
         public function __toString(){
             $cadena= parent:: __toString();
-            $cadena=$cadena. "\n Necesita silla rueda: ".$this->getSillaRueda().
-            "\n Necesita Asistencia: ".$this->getAsistencia().
-            "\n Necesita Comida especial: ".$this->getComidaEspeciales();
+            $cadena=$cadena. "\n     Necesita silla rueda: ".$this->getSillaRueda().
+            "\n     Necesita Asistencia: ".$this->getAsistencia().
+            "\n     Necesita Comida especial: ".$this->getComidaEspeciales();
             return $cadena;
         }
         public function darPorcentaje(){
